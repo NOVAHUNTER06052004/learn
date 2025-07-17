@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/User/Downloads/LearnMaroc%20-%20Darija%20Translator.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnMaroc - Darija Translator</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link href="./LearnMaroc - Darija Translator_files/css2" rel="stylesheet">
+    <link rel="stylesheet" href="./LearnMaroc - Darija Translator_files/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0f2f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        nav {
+            width: 100%;
+            background-color: #4c51bf;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        nav .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        nav .logo-container img {
+            height: 70px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+        nav h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        nav .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover {
+            color: #a7b7ff;
+        }
+
+        .main-content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .section-container {
+            background-color: #ffffff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-radius: 2rem;
+            padding: 3rem;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        textarea {
+            border: 2px solid #cbd5e1;
+            border-radius: 1rem;
+            padding: 1rem;
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #4c51bf;
+            box-shadow: 0 0 0 4px rgba(76, 81, 191, 0.25);
+        }
+        .btn-translate {
+            background-color: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+        .btn-translate:hover {
+            background-color: #5a67d8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .translation-output-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .translation-output {
+            background-color: #f7fafc;
+            border: 1px dashed #a0aec0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            min-height: 100px;
+            text-align: left;
+            font-size: 1.1rem;
+            color: #2d3748;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .error-message {
+            color: #e53e3e;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-left-color: #ffffff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .carousel-container {
+            width: 100%;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        .carousel-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .carousel-button.prev {
+            left: 1rem;
+        }
+        .carousel-button.next {
+            right: 1rem;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        .gallery-carousel-container {
+            width: 100%;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .gallery-carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .gallery-carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .gallery-carousel-slide img {
+            width: 100%;
+            height: 750px; 
+            object-fit: cover;
+            border-radius: 0;
+        }
+        .gallery-carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        .gallery-carousel-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .gallery-carousel-button.prev {
+            left: 1rem;
+        }
+        .gallery-carousel-button.next {
+            right: 1rem;
+        }
+        .gallery-carousel-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .gallery-dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            background-color: #3f51b5;
+            color: white;
+            text-align: center;
+            width: 100%;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        footer p {
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+        footer a {
+            color: #a7b7ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            nav .nav-links {
+                margin-top: 1rem;
+            }
+            nav .nav-links a {
+                margin: 0 0.5rem;
+            }
+            .section-container {
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+            textarea {
+                font-size: 1rem;
+                min-height: 100px;
+            }
+            .btn-translate {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            .translation-output {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .carousel-slide img {
+                height: 180px;
+            }
+            .carousel-button {
+                padding: 0.5rem 0.75rem;
+                font-size: 1.2rem;
+            }
+            .gallery-carousel-slide img {
+                height: 300px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+            <img src="./LearnMaroc - Darija Translator_files/learnmaroc-high-resolution-logo.png" alt="C:\Users\User\Downloads\learnmaroc-high-resolution-logo.png">
+            <h1>LearnMaroc 🇲🇦</h1>
+        </div>
+        <div class="nav-links">
+            <a href="file:///C:/Users/User/Downloads/LearnMaroc%20-%20Darija%20Translator.html#home">Home</a>
+            <a href="file:///C:/Users/User/Downloads/LearnMaroc%20-%20Darija%20Translator.html#darija-explanation">Darija Explained</a>
+            <a href="file:///C:/Users/User/Downloads/LearnMaroc%20-%20Darija%20Translator.html#about">About Us</a>
+            <a href="file:///C:/Users/User/Downloads/LearnMaroc%20-%20Darija%20Translator.html#contact">Contact Us</a>
+        </div>
+    </nav>
+
+    <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack" style="transform: translateX(0%);">
+            <div class="carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-kristen-haennel-2149718872-30757359.jpg" alt="C:\Users\User\Downloads\pexels-kristen-haennel-2149718872-30757359.jpg"></div>
+            <div class="carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-elmostafa-farouk-2148077333-32994672.jpg" alt="C:\Users\User\Downloads\pexels-elmostafa-farouk-2148077333-32994672.jpg"></div>
+            <div class="carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-henrik-le-botos-1588507-3878114.jpg" alt="C:\Users\User\Downloads\pexels-henrik-le-botos-1588507-3878114.jpg"></div>
+        </div>
+        <button class="carousel-button prev" id="prevBtn">❮</button>
+        <button class="carousel-button next" id="nextBtn">❯</button>
+        <div class="carousel-dots" id="carouselDots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
+
+    <div class="main-content-wrapper">
+        <section id="home" class="section-container">
+            <h1 class="text-5xl font-extrabold text-gray-900 mb-4">Translate 🗣️</h1>
+            <p class="text-lg text-gray-600 mb-6">Effortlessly translate between English and Moroccan Darija. ✨</p>
+
+            <div class="flex flex-col gap-4 mb-8 p-8 bg-gray-50 rounded-xl border border-gray-200 shadow-inner">
+                <label for="englishInput" class="text-left text-xl font-semibold text-gray-800">English Text:</label>
+                <textarea id="englishInput" placeholder="Enter English text here..." class="w-full p-4 border-2 border-gray-300 rounded-2xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200"></textarea>
+                <button id="translateEnToDarijaBtn" class="btn-translate self-center">
+                    Translate to Darija
+                    <span id="loadingSpinnerEnToDarija" class="loading-spinner hidden"></span>
+                </button>
+                <label for="darijaOutputEn" class="text-left text-xl font-semibold text-gray-800 mt-4">Darija Translation:</label>
+                <div id="darijaOutputEn" class="translation-output">Your Darija translation will appear here...</div>
+            </div>
+
+            <div class="h-px bg-gray-300 w-full my-8"></div>
+
+            <div class="flex flex-col gap-4 p-8 bg-gray-50 rounded-xl border border-gray-200 shadow-inner">
+                <label for="darijaInput" class="text-left text-xl font-semibold text-gray-800">Darija Text:</label>
+                <textarea id="darijaInput" placeholder="أدخل النص الدارجة هنا..." class="w-full p-4 border-2 border-gray-300 rounded-2xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200" dir="rtl"></textarea>
+                <button id="translateDarijaToEnBtn" class="btn-translate self-center">
+                    Translate to English
+                    <span id="loadingSpinnerDarijaToEn" class="loading-spinner hidden"></span>
+                </button>
+                <label for="englishOutputDarija" class="text-left text-xl font-semibold text-gray-800 mt-4">English Translation:</label>
+                <div id="englishOutputDarija" class="translation-output">Your English translation will appear here...</div>
+            </div>
+        </section>
+
+        <section id="darija-explanation" class="section-container">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Darija Explained 🇲🇦🗣️</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                Darija (الدارجة) is the colloquial Arabic dialect spoken in Morocco. It's a vibrant and unique language, significantly different from Modern Standard Arabic (MSA), incorporating influences from Berber, French, and Spanish. Learning Darija is key to experiencing the authentic Moroccan culture and connecting with locals.
+            </p>
+            <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                Here are a few common Darija words and their English equivalents to get you started:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-lg">
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Salam</span> - <span>Hello 👋 (A common greeting, equivalent to "peace be upon you")</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Labas</span> - <span>How are you? / Fine 👍 (Used as both a question and an answer)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Shukran</span> - <span>Thank you 🙏 (Widely used and understood)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Bslama</span> - <span>Goodbye 👋 (Literally "with safety," a polite farewell)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Wakha</span> - <span>Okay / Alright 👌 (A very common word for agreement or understanding)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Afak</span> - <span>Please 🤲 (Used when making a request)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>Eh</span> - <span>Yes ✅ (Informal way to say yes)</span>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <span>La</span> - <span>No ❌ (The direct translation for no)</span>
+                </div>
+            </div>
+            <p class="text-lg text-gray-700 leading-relaxed mt-6">
+                Understanding these basic phrases can significantly enhance your experience in Morocco!
+            </p>
+        </section>
+
+        <section id="about" class="section-container">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">About Us ℹ️</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                Welcome to Darija Translator, your dedicated online tool for bridging the language gap between English/French and Moroccan Darija. My mission is to make Moroccan Arabic accessible to everyone, whether you're a traveler, a student, a business professional, or simply curious about Moroccan culture.
+            </p>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                I believe that language is the key to understanding and connecting with diverse cultures. That's why I've developed this platform, leveraging advanced language models to provide accurate and contextually relevant translations. Our goal is to empower you to communicate confidently and explore the rich linguistic landscape of Morocco.
+            </p>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                I am passionate about language and technology, constantly working to improve the accuracy and usability of this translator. I hope you find it a valuable resource on your journey to discover Darija!
+            </p>
+        </section>
+
+        <section id="contact" class="section-container">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Contact Us 📧</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                Have questions, feedback, or suggestions? I'd love to hear from you!
+            </p>
+            <form class="space-y-6">
+                <div>
+                    <label for="name" class="block text-xl font-medium text-gray-700 mb-2 text-left">Name</label>
+                    <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Your Name">
+                </div>
+                <div>
+                    <label for="email" class="block text-xl font-medium text-gray-700 mb-2 text-left">Email</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="your.email@example.com">
+                </div>
+                <div>
+                    <label for="message" class="block text-xl font-medium text-gray-700 mb-2 text-left">Message</label>
+                    <textarea id="message" name="message" rows="5" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-y" placeholder="Your message..."></textarea>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-full text-xl font-bold hover:from-blue-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105 shadow-lg flex items-center">
+                        <i class="fas fa-envelope mr-3"></i> Send Message
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div class="gallery-carousel-container" id="galleryCarouselContainer">
+        <div class="gallery-carousel-track" id="galleryCarouselTrack" style="transform: translateX(-100%);">
+            <div class="gallery-carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-ayoub-galuia-633424835-31328683.jpg" alt="C:\Users\User\Downloads\pexels-ayoub-galuia-633424835-31328683.jpg"></div>
+            <div class="gallery-carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-abdel-achkouk-2861018-22717120.jpg" alt="C:\Users\User\Downloads\pexels-abdel-achkouk-2861018-22717120.jpg"></div>
+            <div class="gallery-carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-meriem-a-2149355236-30682505.jpg" alt="C:\Users\User\Downloads\pexels-meriem-a-2149355236-30682505.jpg"></div>
+            <div class="gallery-carousel-slide"><img src="./LearnMaroc - Darija Translator_files/pexels-kristen-haennel-2149718872-30757394.jpg"></div>
+        </div>
+        <button class="gallery-carousel-button prev" id="galleryPrevBtn">❮</button>
+        <button class="gallery-carousel-button next" id="galleryNextBtn">❯</button>
+        <div class="gallery-carousel-dots" id="galleryCarouselDots"><span class="gallery-dot"></span><span class="gallery-dot active"></span><span class="gallery-dot"></span><span class="gallery-dot"></span></div>
+    </div>
+
+    <footer class="mt-auto w-full bg-indigo-800 text-white py-6 px-4 rounded-t-2xl">
+        <p>© 2024 Darija Translator. All rights reserved.</p>
+        <p>Powered by <a href="https://aistudio.google.com/" target="_blank" class="text-blue-300 hover:text-white">LearnMaroc</a></p>
+        <p>Created with ❤ by Rohan</p>
+        <p>Contact: <a href="mailto:novahunter0605@#gmail.com" class="text-blue-300 hover:text-white">novahunter0605@gmail.com</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishInput = document.getElementById('englishInput');
+            const darijaInput = document.getElementById('darijaInput');
+            const translateEnToDarijaBtn = document.getElementById('translateEnToDarijaBtn');
+            const translateDarijaToEnBtn = document.getElementById('translateDarijaToEnBtn');
+            const darijaOutputEn = document.getElementById('darijaOutputEn');
+            const englishOutputDarija = document.getElementById('englishOutputDarija');
+            const loadingSpinnerEnToDarija = document.getElementById('loadingSpinnerEnToDarija');
+            const loadingSpinnerDarijaToEn = document.getElementById('loadingSpinnerDarijaToEn');
+
+            const API_KEY = 'AIzaSyA-o_JTFtDKVKSn3bHBQVP_zatrAG5m_J8';
+
+            const translateText = async (text, sourceLang) => {
+                if (!API_KEY) {
+                    const msg = "API key is not set. Translation cannot proceed.";
+                    if (sourceLang === 'en') {
+                        darijaOutputEn.textContent = msg;
+                    } else {
+                        englishOutputDarija.textContent = msg;
+                    }
+                    console.error(msg);
+                    return;
+                }
+
+                darijaOutputEn.textContent = 'Your Darija translation will appear here...';
+                englishOutputDarija.textContent = 'Your English translation will appear here...';
+
+                let currentSpinner;
+                let currentButton;
+                let prompt;
+
+                if (sourceLang === 'en') {
+                    currentSpinner = loadingSpinnerEnToDarija;
+                    currentButton = translateEnToDarijaBtn;
+                    prompt = `Translate the following English text into Moroccan Darija. For each translated Darija phrase, also provide a literal English translation in parentheses if it helps understanding, or a brief explanation of its meaning/usage for beginners. Format the output clearly, for example: "Darija Phrase (Literal English Translation/Explanation)".\n\nEnglish Text: "${text}"`;
+                    darijaOutputEn.textContent = '';
+                } else {
+                    currentSpinner = loadingSpinnerDarijaToEn;
+                    currentButton = translateDarijaToEnBtn;
+                    prompt = `Translate the following Moroccan Darija text into English. For each translated English phrase, also provide the original Darija word/phrase in parentheses if it helps understanding, or a brief explanation of its meaning/usage for beginners. Format the output clearly, for example: "English Phrase (Original Darija/Explanation)".\n\nDarija Text: "${text}"`;
+                    englishOutputDarija.textContent = '';
+                }
+
+                currentSpinner.classList.remove('hidden');
+                currentButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = { contents: chatHistory };
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const translatedText = result.candidates[0].content.parts[0].text;
+                        if (sourceLang === 'en') {
+                            darijaOutputEn.textContent = translatedText.trim();
+                        } else {
+                            englishOutputDarija.textContent = translatedText.trim();
+                        }
+                    } else {
+                        throw new Error('No translation found or unexpected API response structure.');
+                    }
+                } catch (error) {
+                    console.error('Error during translation:', error);
+                    const errorMsg = `Translation failed: ${error.message || 'Network error or invalid response.'}`;
+                    if (sourceLang === 'en') {
+                        darijaOutputEn.textContent = errorMsg;
+                    } else {
+                        englishOutputDarija.textContent = errorMsg;
+                    }
+                } finally {
+                    currentSpinner.classList.add('hidden');
+                    currentButton.disabled = false;
+                }
+            };
+
+            translateEnToDarijaBtn.addEventListener('click', () => {
+                const textToTranslate = englishInput.value.trim();
+                if (textToTranslate) {
+                    translateText(textToTranslate, 'en');
+                } else {
+                    darijaOutputEn.textContent = "Please enter some English text to translate.";
+                }
+            });
+
+            translateDarijaToEnBtn.addEventListener('click', () => {
+                const textToTranslate = darijaInput.value.trim();
+                if (textToTranslate) {
+                    translateText(textToTranslate, 'darija');
+                } else {
+                    englishOutputDarija.textContent = "Please enter some Darija text to translate.";
+                }
+            });
+
+            englishInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    translateEnToDarijaBtn.click();
+                }
+            });
+
+            darijaInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    translateDarijaToEnBtn.click();
+                }
+            });
+
+            const mainCarouselTrack = document.getElementById('carouselTrack');
+            const mainPrevBtn = document.getElementById('prevBtn');
+            const mainNextBtn = document.getElementById('nextBtn');
+            const mainCarouselDots = document.getElementById('carouselDots');
+            const mainSlides = document.querySelectorAll('.carousel-slide');
+            let mainCurrentIndex = 0;
+            const mainTotalSlides = mainSlides.length;
+            let mainAutoSlideInterval;
+
+            for (let i = 0; i < mainTotalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                mainCarouselDots.appendChild(dot);
+            }
+            const mainDots = document.querySelectorAll('.dot');
+
+            const updateMainCarousel = () => {
+                const offset = -mainCurrentIndex * 100;
+                mainCarouselTrack.style.transform = `translateX(${offset}%)`;
+                mainDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === mainCurrentIndex);
+                });
+            };
+
+            const goToMainSlide = (index) => {
+                mainCurrentIndex = index;
+                updateMainCarousel();
+            };
+
+            const nextMainSlide = () => {
+                mainCurrentIndex = (mainCurrentIndex + 1) % mainTotalSlides;
+                updateMainCarousel();
+            };
+
+            const prevMainSlide = () => {
+                mainCurrentIndex = (mainCurrentIndex - 1 + mainTotalSlides) % mainTotalSlides;
+                updateMainCarousel();
+            };
+
+            mainNextBtn.addEventListener('click', () => {
+                nextMainSlide();
+                resetMainAutoSlide();
+            });
+
+            mainPrevBtn.addEventListener('click', () => {
+                prevMainSlide();
+                resetMainAutoSlide();
+            });
+
+            const startMainAutoSlide = () => {
+                mainAutoSlideInterval = setInterval(nextMainSlide, 5000);
+            };
+
+            const resetMainAutoSlide = () => {
+                clearInterval(mainAutoSlideInterval);
+                startMainAutoSlide();
+            };
+
+            startMainAutoSlide();
+
+            const galleryCarouselTrack = document.getElementById('galleryCarouselTrack');
+            const galleryPrevBtn = document.getElementById('galleryPrevBtn');
+            const galleryNextBtn = document.getElementById('galleryNextBtn');
+            const galleryCarouselDots = document.getElementById('galleryCarouselDots');
+            const gallerySlides = document.querySelectorAll('.gallery-carousel-slide');
+            let galleryCurrentIndex = 0;
+            const galleryTotalSlides = gallerySlides.length;
+            let galleryAutoSlideInterval;
+
+            for (let i = 0; i < galleryTotalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('gallery-dot');
+                if (i === 0) dot.classList.add('active');
+                galleryCarouselDots.appendChild(dot);
+            }
+            const galleryDots = document.querySelectorAll('.gallery-dot');
+
+            const updateGalleryCarousel = () => {
+                const offset = -galleryCurrentIndex * 100;
+                galleryCarouselTrack.style.transform = `translateX(${offset}%)`;
+                galleryDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === galleryCurrentIndex);
+                });
+            };
+
+            const goToGallerySlide = (index) => {
+                galleryCurrentIndex = index;
+                updateGalleryCarousel();
+            };
+
+            const nextGallerySlide = () => {
+                galleryCurrentIndex = (galleryCurrentIndex + 1) % galleryTotalSlides;
+                updateGalleryCarousel();
+            };
+
+            const prevGallerySlide = () => {
+                galleryCurrentIndex = (galleryCurrentIndex - 1 + galleryTotalSlides) % galleryTotalSlides;
+                updateGalleryCarousel();
+            };
+
+            galleryNextBtn.addEventListener('click', () => {
+                nextGallerySlide();
+                resetGalleryAutoSlide();
+            });
+
+            galleryPrevBtn.addEventListener('click', () => {
+                prevGallerySlide();
+                resetGalleryAutoSlide();
+            });
+
+            const startGalleryAutoSlide = () => {
+                galleryAutoSlideInterval = setInterval(nextGallerySlide, 4000);
+            };
+
+            const resetGalleryAutoSlide = () => {
+                clearInterval(galleryAutoSlideInterval);
+                startGalleryAutoSlide();
+            };
+
+            startGalleryAutoSlide();
+
+            document.querySelectorAll('nav .nav-links a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body></html>
